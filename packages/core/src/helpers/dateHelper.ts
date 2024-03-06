@@ -38,3 +38,66 @@ export const diffFromUtcInDays = (date: string | undefined) => {
 export const diffInMs = (startDate: DateTime, endDate: DateTime): number => {
     return endDate.toMillis() - startDate.toMillis();
 };
+
+const possibleFormats = [
+    'yyyy-MM-dd',
+    'yyyy/MM/dd',
+    'dd/MM/yyyy',
+    'dd-MM-yyyy',
+    'LLL d, yyyy',
+];
+
+export const parseDate = (dateString: string): DateTime | null => {
+    for (const format of possibleFormats) {
+        const parsedDate = DateTime.fromFormat(dateString, format);
+        if (parsedDate.isValid) {
+            return parsedDate;
+        }
+    }
+    return null;
+}
+
+export const isSame = (date1: string, date2: string): boolean => {
+    const parsedDate1 = parseDate(date1);
+    const parsedDate2 = parseDate(date2);
+    if (!parsedDate1 || !parsedDate2) {
+        return false;
+    }
+    return parsedDate1.equals(parsedDate2);
+}
+
+export const isBefore = (date1: string, date2: string): boolean => {
+    const parsedDate1 = parseDate(date1);
+    const parsedDate2 = parseDate(date2);
+    if (!parsedDate1 || !parsedDate2) {
+        return false;
+    }
+    return parsedDate1 < parsedDate2;
+}
+
+export const isBeforeOrAt = (date1: string, date2: string): boolean => {
+    const parsedDate1 = parseDate(date1);
+    const parsedDate2 = parseDate(date2);
+    if (!parsedDate1 || !parsedDate2) {
+        return false;
+    }
+    return parsedDate1 <= parsedDate2;
+}
+
+export const isAfter = (date1: string, date2: string): boolean => {
+    const parsedDate1 = parseDate(date1);
+    const parsedDate2 = parseDate(date2);
+    if (!parsedDate1 || !parsedDate2) {
+        return false;
+    }
+    return parsedDate1 > parsedDate2;
+}
+
+export const isAfterOrAt = (date1: string, date2: string): boolean => {
+        const parsedDate1 = parseDate(date1);
+        const parsedDate2 = parseDate(date2);
+        if (!parsedDate1 || !parsedDate2) {
+            return false;
+        }
+        return parsedDate1 >= parsedDate2;
+}

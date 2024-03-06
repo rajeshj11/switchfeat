@@ -59,6 +59,7 @@ export const sdkRoutesWrapper = (
         async (req: Request, res: Response) => {
             try {
                 const flagKey = req.params.flagKey;
+                const isV2 = req.query.v2?.toString().toLowerCase() === 'true';
                 const flagContext = req.body.context;
                 const correlationId = req.body.correlationId;
 
@@ -73,6 +74,7 @@ export const sdkRoutesWrapper = (
                     flag,
                     flagContext,
                     correlationId,
+                    isV2
                 );
                 setSuccessResponse(res, ApiResponseCodes.Success, resp);
             } catch (error) {
